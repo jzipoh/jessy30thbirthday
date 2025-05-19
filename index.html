@@ -64,9 +64,9 @@
       align-self: flex-start;
     }
 
-    /* General image styles removed max-height */
     .page img {
       max-width: 100%;
+      max-height: 80%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
@@ -89,6 +89,20 @@
       color: #d63384;
       margin-bottom: 10px;
     }
+
+    /* Polaroid effect */
+    .polaroid {
+      background: white;
+      padding: 10px 10px 25px 10px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .polaroid img {
+      max-width: 100%;
+      border-radius: 4px;
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -101,7 +115,7 @@
     <img src="Jessy.jpg" alt="Birthday Image">
   </div>
 
-  <!-- Page 2 -->
+  <!-- Page 2 with Polaroid-style image -->
   <div class="page" id="page2">
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
@@ -112,7 +126,9 @@
         JZ
       </p>
     </div>
-    <img src="JZ.png" alt="Second Photo" style="width: 100%; height: 180px; object-fit: cover;" />
+    <div class="polaroid">
+      <img src="JZ.png" alt="Second Photo">
+    </div>
   </div>
 
   <!-- Page 3 -->
