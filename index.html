@@ -2,31 +2,35 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Page-by-page Flip Card</title>
+<title>Click-to-Flip Full Page Card</title>
 <style>
-  body {
+  html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
     background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
     font-family: 'Segoe UI', sans-serif;
+  }
+
+  body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
   }
 
   .card {
-    width: 320px;
-    height: 380px;
+    width: 100vw;
+    height: 100vh;
     position: relative;
     perspective: 1500px;
+    overflow: hidden;
+    cursor: pointer;
   }
 
   .page {
-    width: 320px;
-    height: 380px;
+    width: 100vw;
+    height: 100vh;
     background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
-    border-radius: 20px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     position: absolute;
     top: 0;
     left: 0;
@@ -37,71 +41,54 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 40px;
     box-sizing: border-box;
+    color: #555;
+    user-select: none;
   }
 
-  /* Stacking order: page1 top, page2 middle, page3 bottom */
   #page1 { z-index: 3; }
   #page2 { z-index: 2; }
   #page3 { z-index: 1; }
 
-  /* Flipped pages rotate Y 180deg */
   .flipped {
     transform: rotateY(-180deg);
-    box-shadow: none;
   }
 
   img {
-    max-width: 90%;
-    max-height: 250px;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    max-width: 60vw;
+    max-height: 60vh;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    object-fit: contain;
   }
 
   video {
-    width: 90%;
-    border-radius: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  }
-
-  .buttons {
-    margin-top: 400px;
-    width: 320px;
-    display: flex;
-    justify-content: space-between;
-  }
-
-  button {
-    background: #ff4081;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 10px;
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-  }
-
-  button:disabled {
-    background: #ffb6c1;
-    cursor: default;
+    max-width: 60vw;
+    max-height: 60vh;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    object-fit: contain;
   }
 
   h2 {
     color: #ff4081;
-    margin-bottom: 15px;
+    margin-bottom: 25px;
+    font-size: 3.2vw;
+    text-align: center;
   }
 
   p {
     white-space: pre-line;
-    color: #555;
+    font-size: 2.2vw;
+    text-align: center;
+    margin-bottom: 25px;
   }
 </style>
 </head>
 <body>
 
-<div class="card">
+<div class="card" id="card">
   <div class="page" id="page1">
     <img src="bartholomew.png" alt="Bartholomew Bear Photo" />
   </div>
@@ -120,11 +107,6 @@
   </div>
 </div>
 
-<div class="buttons">
-  <button id="prevBtn" disabled>Previous</button>
-  <button id="nextBtn">Next</button>
-</div>
-
 <script>
   const pages = [
     document.getElementById('page1'),
@@ -133,35 +115,3 @@
   ];
 
   let currentPage = 0;
-
-  function updateButtons() {
-    document.getElementById('prevBtn').disabled = currentPage === 0;
-    document.getElementById('nextBtn').disabled = currentPage === pages.length;
-  }
-
-  // On next, flip the current page away (if any)
-  document.getElementById('nextBtn').onclick = () => {
-    if (currentPage < pages.length) {
-      if (currentPage > 0) {
-        pages[currentPage - 1].classList.add('flipped');
-      }
-      currentPage++;
-      updateButtons();
-    }
-  };
-
-  // On prev, flip the previous page back (if any)
-  document.getElementById('prevBtn').onclick = () => {
-    if (currentPage > 0) {
-      currentPage--;
-      pages[currentPage].classList.remove('flipped');
-      updateButtons();
-    }
-  };
-
-  updateButtons();
-</script>
-
-</body>
-</html>
-
