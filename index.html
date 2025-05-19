@@ -7,40 +7,50 @@
     body {
       background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
       font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .flip-card {
+      background-color: transparent;
+      width: 300px;
+      height: 350px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .flip-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
       text-align: center;
-      padding: 40px;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
     }
-    h1 {
-      color: #ff4081;
-      font-size: 3em;
-      margin-bottom: 10px;
+
+    .flip-card:hover .flip-card-inner,
+    .flip-card:focus .flip-card-inner,
+    .flip-card.clicked .flip-card-inner {
+      transform: rotateY(180deg);
     }
-    p {
-      color: #555;
-      font-size: 1.2em;
-      margin-bottom: 30px;
-    }
-    img {
-      width: 250px;
+
+    .flip-card-front,
+    .flip-card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      backface-visibility: hidden;
+      background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
-    .signature {
-      margin-top: 40px;
-      font-style: italic;
-      color: #888;
-    }
-  </style>
-</head>
-<body>
-  <h1>Happy Birthday, [Name]!</h1>
-  <p>Wishing you laughter, love, and cake!</p>
-  
-  <img src="bartholomew.png" alt="Bartholomew Bear" width="250">
 
-
-  <div class="signature">
-    — From [JZ POH]
-  </div>
-</body>
-</html>
+    .flip-card-front
