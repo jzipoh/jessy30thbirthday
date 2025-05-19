@@ -25,7 +25,7 @@
     .page {
       width: 100%;
       height: 100%;
-      background: #C8A2C8; /* Lilac */
+      background: #C8A2C8;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
       padding: 20px;
@@ -64,9 +64,9 @@
       align-self: flex-start;
     }
 
+    /* General image styles removed max-height */
     .page img {
       max-width: 100%;
-      max-height: 80%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
@@ -95,13 +95,13 @@
 
 <div class="book" onclick="flipPage()">
 
-  <!-- Page 1: Title + Image -->
+  <!-- Page 1 -->
   <div class="page active" id="page1">
     <div class="title">Happy 30th Birthday</div>
     <img src="Jessy.jpg" alt="Birthday Image">
   </div>
 
-  <!-- Page 2: Message + landscape Photo -->
+  <!-- Page 2 -->
   <div class="page" id="page2">
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
@@ -112,10 +112,10 @@
         JZ
       </p>
     </div>
-    <img src="JZ.png" alt="Second Photo" style="width: 100%; height: 180px; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
+    <img src="JZ.png" alt="Second Photo" style="width: 100%; height: 180px; object-fit: cover;" />
   </div>
 
-  <!-- Page 3: Video -->
+  <!-- Page 3 -->
   <div class="page" id="page3">
     <video controls>
       <source src="birthday-video.mp4" type="video/mp4" />
