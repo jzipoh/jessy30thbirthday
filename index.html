@@ -2,49 +2,49 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Click-to-Flip Full Page Card</title>
+<title>Virtual Birthday Card</title>
 <style>
   html, body {
     margin: 0;
     height: 100%;
-    overflow: hidden;
-    background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
-    font-family: 'Segoe UI', sans-serif;
-  }
-
-  body {
+    background: linear-gradient(to bottom right, #E6E6FA, #D8BFD8); /* lavender */
     display: flex;
     justify-content: center;
     align-items: center;
+    font-family: 'Segoe UI', sans-serif;
   }
 
   .card {
-    width: 100vw;
-    height: 100vh;
-    position: relative;
+    width: 400px;
+    height: 600px;
     perspective: 1500px;
-    overflow: hidden;
     cursor: pointer;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 16px;
+    overflow: hidden;
+    background: #fff;
   }
 
   .page {
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
+    width: 400px;
+    height: 600px;
     position: absolute;
     top: 0;
     left: 0;
     backface-visibility: hidden;
     transform-style: preserve-3d;
     transition: transform 0.8s;
+    padding: 30px;
+    box-sizing: border-box;
+    color: #555;
+    user-select: none;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 40px;
-    box-sizing: border-box;
-    color: #555;
-    user-select: none;
+    background: #fff;
+    border-radius: 16px;
   }
 
   #page1 { z-index: 3; }
@@ -55,35 +55,54 @@
     transform: rotateY(-180deg);
   }
 
-  img {
-    max-width: 60vw;
-    max-height: 60vh;
-    border-radius: 20px;
+  /* Page 1 image style */
+  #page1 img {
+    max-width: 80%;
+    max-height: 80%;
+    border-radius: 16px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.15);
     object-fit: contain;
   }
 
-  video {
-    max-width: 60vw;
-    max-height: 60vh;
-    border-radius: 20px;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-    object-fit: contain;
+  /* Page 2 layout: text left, image right */
+  #page2 {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 30px;
   }
 
-  h2 {
+  #page2 .text-block {
+    max-width: 45%;
+    color: #555;
+    text-align: left;
+    font-size: 1.1rem;
+    line-height: 1.5;
+  }
+
+  #page2 .text-block h2 {
     color: #ff4081;
-    margin-bottom: 25px;
-    font-size: 3.2vw;
-    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
   }
 
-  p {
-    white-space: pre-line;
-    font-size: 2.2vw;
-    text-align: center;
-    margin-bottom: 25px;
+  #page2 img {
+    max-width: 50%;
+    max-height: 80%;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    object-fit: contain;
   }
+
+  /* Page 3 video style */
+  #page3 video {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    object-fit: contain;
+  }
+
 </style>
 </head>
 <body>
@@ -94,8 +113,15 @@
   </div>
 
   <div class="page" id="page2">
-    <h2>Dear Je Ssy,</h2>
-    <p>Happy 30th birthday!<br>(I will input some text here later on)<br><br>From<br>JZ</p>
+    <div class="text-block">
+      <h2>Dear Je Ssy,</h2>
+      <p>
+        Happy 30th birthday!<br>
+        (I will input some text here later on)<br><br>
+        From<br>
+        JZ
+      </p>
+    </div>
     <img src="bartholomew.png" alt="Bartholomew Bear Photo 2" />
   </div>
 
