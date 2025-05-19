@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>3-Page Birthday Card</title>
+<title>Page-by-page Flip Card</title>
 <style>
   body {
     background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
@@ -17,48 +17,45 @@
   .card {
     width: 320px;
     height: 380px;
-    background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
-    border-radius: 20px;
-    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
-    padding: 20px;
     position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    perspective: 1500px;
   }
 
   .page {
-    display: none;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    color: #555;
-    font-size: 1.1em;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .page.active {
+    width: 320px;
+    height: 380px;
+    background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    transition: transform 0.8s;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
   }
 
-  .page h2 {
-    margin-bottom: 15px;
-    color: #ff4081;
-  }
+  /* Stacking order: page1 top, page2 middle, page3 bottom */
+  #page1 { z-index: 3; }
+  #page2 { z-index: 2; }
+  #page3 { z-index: 1; }
 
-  .page p {
-    margin: 10px 0;
-    white-space: pre-line;
+  /* Flipped pages rotate Y 180deg */
+  .flipped {
+    transform: rotateY(-180deg);
+    box-shadow: none;
   }
 
   img {
     max-width: 90%;
     max-height: 250px;
     border-radius: 15px;
-    margin: auto;
     box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   }
 
@@ -69,8 +66,8 @@
   }
 
   .buttons {
-    margin-top: auto;
-    width: 90%;
+    margin-top: 400px;
+    width: 320px;
     display: flex;
     justify-content: space-between;
   }
@@ -90,65 +87,81 @@
     background: #ffb6c1;
     cursor: default;
   }
+
+  h2 {
+    color: #ff4081;
+    margin-bottom: 15px;
+  }
+
+  p {
+    white-space: pre-line;
+    color: #555;
+  }
 </style>
 </head>
 <body>
 
 <div class="card">
-  <!-- Page 1: Photo -->
-  <div class="page active" id="page1">
+  <div class="page" id="page1">
     <img src="bartholomew.png" alt="Bartholomew Bear Photo" />
   </div>
 
-  <!-- Page 2: Message + Photo -->
   <div class="page" id="page2">
     <h2>Dear Je Ssy,</h2>
     <p>Happy 30th birthday!<br>(I will input some text here later on)<br><br>From<br>JZ</p>
     <img src="bartholomew.png" alt="Bartholomew Bear Photo 2" />
   </div>
 
-  <!-- Page 3: Video -->
   <div class="page" id="page3">
     <video controls>
       <source src="birthday-video.mp4" type="video/mp4" />
       Your browser does not support the video tag.
     </video>
   </div>
+</div>
 
-  <div class="buttons">
-    <button id="prevBtn" disabled>Previous</button>
-    <button id="nextBtn">Next</button>
-  </div>
+<div class="buttons">
+  <button id="prevBtn" disabled>Previous</button>
+  <button id="nextBtn">Next</button>
 </div>
 
 <script>
-  const pages = document.querySelectorAll('.page');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
+  const pages = [
+    document.getElementById('page1'),
+    document.getElementById('page2'),
+    document.getElementById('page3')
+  ];
+
   let currentPage = 0;
 
-  function showPage(index) {
-    pages.forEach((page, i) => {
-      page.classList.toggle('active', i === index);
-    });
-    prevBtn.disabled = index === 0;
-    nextBtn.disabled = index === pages.length - 1;
+  function updateButtons() {
+    document.getElementById('prevBtn').disabled = currentPage === 0;
+    document.getElementById('nextBtn').disabled = currentPage === pages.length;
   }
 
-  prevBtn.addEventListener('click', () => {
+  // On next, flip the current page away (if any)
+  document.getElementById('nextBtn').onclick = () => {
+    if (currentPage < pages.length) {
+      if (currentPage > 0) {
+        pages[currentPage - 1].classList.add('flipped');
+      }
+      currentPage++;
+      updateButtons();
+    }
+  };
+
+  // On prev, flip the previous page back (if any)
+  document.getElementById('prevBtn').onclick = () => {
     if (currentPage > 0) {
       currentPage--;
-      showPage(currentPage);
+      pages[currentPage].classList.remove('flipped');
+      updateButtons();
     }
-  });
+  };
 
-  nextBtn.addEventListener('click', () => {
-    if (currentPage < pages.length - 1) {
-      currentPage++;
-      showPage(currentPage);
-    }
-  });
+  updateButtons();
 </script>
 
 </body>
 </html>
+
