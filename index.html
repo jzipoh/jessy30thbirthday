@@ -115,3 +115,26 @@
   ];
 
   let currentPage = 0;
+
+  const card = document.getElementById('card');
+
+  card.addEventListener('click', () => {
+    if (currentPage < pages.length) {
+      if (currentPage > 0) {
+        pages[currentPage - 1].classList.add('flipped');
+      }
+      currentPage++;
+      if (currentPage === pages.length) {
+        setTimeout(() => {
+          for (const page of pages) {
+            page.classList.remove('flipped');
+          }
+          currentPage = 0;
+        }, 1500);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
