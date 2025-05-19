@@ -1,56 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Happy Birthday!</title>
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
+<meta charset="UTF-8" />
+<title>3-Page Birthday Card</title>
+<style>
+  body {
+    background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
+    font-family: 'Segoe UI', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
 
-    .flip-card {
-      background-color: transparent;
-      width: 300px;
-      height: 350px;
-      perspective: 1000px;
-      cursor: pointer;
-    }
+  .card {
+    width: 320px;
+    height: 380px;
+    background: linear-gradient(to bottom right, #fff0f5, #ffe6f0);
+    border-radius: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .flip-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      text-align: center;
-      transition: transform 0.8s;
-      transform-style: preserve-3d;
-    }
+  .page {
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    color: #555;
+    font-size: 1.1em;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .flip-card:hover .flip-card-inner,
-    .flip-card:focus .flip-card-inner,
-    .flip-card.clicked .flip-card-inner {
-      transform: rotateY(180deg);
-    }
+  .page.active {
+    display: flex;
+  }
 
-    .flip-card-front,
-    .flip-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      backface-visibility: hidden;
-      background: linear-gradient(to bottom right, #ffe6f0, #fff0f5);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
+  .page h2 {
+    margin-bottom: 15px;
+    color: #ff4081;
+  }
 
-    .flip-card-front
+  .page p {
+    margin: 10px 0;
+    white-space: pre-line;
+  }
+
+  img {
+    max-width: 90%;
+    max-height: 250px;
+    border-radius: 15px;
+    margin: auto;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  video {
+    width: 90%;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  .buttons {
+    margin-top: auto;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  button {
+    background: #ff4081;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  }
+
+  button:disabled {
+    background: #ffb6c1;
+    cursor: default;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <!-- Page 1: Photo -->
+  <div class="page active" id="page1">
+    <img src="bartholomew.png" alt="Bartholomew Bear Photo" />
+  </div>
+
+  <!-- Page 2: Message + Photo -->
+  <div class="page" id="page2">
+    <h2>Dear Je Ssy,</h2>
+    <p>Happy 30th birthday!<br>(I will input some text here later on)<br><br>From<br>JZ</p>
+    <img src="bartholomew.png" alt="Bartholomew Bear Photo 2" />
+  </div>
+
+  <!-- Page 3: Video -->
+  <div class="page" id="page3">
+    <video controls>
+      <source src="birthday-video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <div class="buttons">
+    <button id="prevBtn" disabled>Previous</button>
+    <button id="nextBtn">Next</button>
+  </div>
+</div>
+
+<script>
+  const pages = document.querySelectorAll('.page');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  let currentPage = 0;
+
+  function showPage(index) {
+    pages.forEach((page, i) => {
+      page.classList.toggle('active', i === index);
+    });
+    prevBtn.disabled = index === 0;
+    nextBtn.disabled = index === pages.length - 1;
+  }
+
+  prevBtn.addEventListener('click', () => {
+    if (currentPage > 0) {
+      currentPage--;
+      showPage(currentPage);
+    }
+  });
+
+  nextBtn.addEventListener('click', () => {
+    if (currentPage < pages.length - 1) {
+      currentPage++;
+      showPage(currentPage);
+    }
+  });
+</script>
+
+</body>
+</html>
