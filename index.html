@@ -4,45 +4,151 @@
   <meta charset="UTF-8" />
   <title>Birthday Card</title>
   <style>
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       background: lavender;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
     }
+
     .card {
       width: 400px;
       height: 600px;
-      background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      position: relative;
+      perspective: 1500px;
       cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
     }
-    .card img {
+
+    .page {
       width: 100%;
       height: 100%;
-      object-fit: cover;
-    }
-    .card h1 {
       position: absolute;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      color: deeppink;
-      font-size: 2.5rem;
-      text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
-      z-index: 1;
+      top: 0;
+      left: 0;
+      background: white;
+      backface-visibility: hidden;
+      transform-style: preserve-3d;
+      transition: transform 0.8s;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    #page1 { z-index: 3; }
+    #page2 { z-index: 2; }
+    #page3 { z-index: 1; }
+
+    .flipped {
+      transform: rotateY(-180deg);
+    }
+
+    .title {
+      font-size: 2rem;
+      color: #d63384;
+      margin-bottom: 15px;
+    }
+
+    .page img {
+      width: 100%;
+      height: auto;
+      max-height: 80%;
+      object-fit: contain;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .text-block {
+      text-align: left;
+      width: 100%;
+      color: #333;
+      font-size: 1.1rem;
+      line-height: 1.5;
+    }
+
+    .text-block h2 {
+      color: #d63384;
+      margin-bottom: 10px;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+      max-height: 100%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Happy 30th Birthday</h1>
-    <img src="bartholomew.png" alt="Birthday image" />
+
+<div class="card" id="card">
+  <!-- Page 1: Title above image -->
+  <div class="page" id="page1">
+    <div class="title">Happy 30th Birthday</div>
+    <img src="bartholomew.png" alt="Birthday Photo">
   </div>
+
+  <!-- Page 2: Letter + photo -->
+  <div class="page" id="page2">
+    <div class="text-block">
+      <h2>Dear Je Ssy,</h2>
+      <p>
+        Happy 30th birthday!<br>
+        (I will input some text here later on)<br><br>
+        From,<br>
+        JZ
+      </p>
+    </div>
+    <img src="bartholomew.png" alt="Birthday Photo 2">
+  </div>
+
+  <!-- Page 3: Video -->
+  <div class="page" id="page3">
+    <video controls>
+      <source src="birthday-video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<script>
+  const pages = [
+    document.getElementById('page1'),
+    document.getElementById('page2'),
+    document.getElementById('page3')
+  ];
+
+  let currentPage = 0;
+  const card = document.getElementById('card');
+
+  card.addEventListener('click', () => {
+    if (currentPage < pages.length) {
+      if (currentPage > 0) {
+        pages[currentPage - 1].classList.add('flipped');
+      }
+      currentPage++;
+      if (currentPage === pages.length) {
+        setTimeout(() => {
+          for (const page of pages) {
+            page.classList.remove('flipped');
+          }
+          currentPage = 0;
+        }, 1500);
+      }
+    }
+  });
+</script>
+
 </body>
 </html>
