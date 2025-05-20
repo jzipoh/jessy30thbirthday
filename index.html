@@ -99,38 +99,41 @@
       text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
     }
 
-    .polaroid-container {
-      width: 100%;
-      margin-top: 10px;
-    }
+  .polaroid-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* left align "From," */
+  }
 
-    .from-label {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.1rem;
-      color: black;
-      margin-bottom: 6px;
-      text-align: left;
-      padding-left: 2px;
-    }
+  .from-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
 
-    .polaroid {
-      background: white;
-      padding: 10px 10px 20px 10px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      max-height: 220px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  .polaroid {
+    background: white;
+    padding: 10px 10px 20px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    max-height: 220px;  /* keep previous size */
+    width: 100%;       /* fill container width */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-    .polaroid img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-      display: block;
-    }
+  .polaroid img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+  }
 
     .caption {
       font-style: italic;
