@@ -80,7 +80,8 @@
       margin-bottom: 10px;
       color: black;
       font-size: 1.1rem;
-      min-height: 220px; /* reserve space */
+      min-height: 220px;
+      position: relative;
     }
 
     .text-block h2 {
@@ -98,6 +99,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: relative;
+      margin-top: 40px; /* to leave space for "From," above */
+      width: 100%;
     }
 
     .polaroid img {
@@ -113,6 +117,23 @@
       text-align: center;
       color: #555;
       font-size: 0.9rem;
+    }
+
+    /* "From," text styling */
+    .from-text {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.2rem;
+      color: black;
+      position: absolute;
+      top: 0;
+      left: 0;
+      animation: floatMove 3s ease-in-out infinite;
+      user-select: none;
+    }
+
+    @keyframes floatMove {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
     }
 
     .page video {
@@ -150,9 +171,10 @@
         (I will input some text later on)<br>
         (I will input some text later on)<br>
       </p>
-      <p style="font-family: 'Dancing Script', cursive; font-size: 1.2rem; margin: 10px 0 5px 0; text-align: left;">From,</p>
     </div>
+
     <div class="polaroid">
+      <div class="from-text">From,</div>
       <img src="JZ.png" alt="Second Photo">
       <p class="caption">JZ and his bear bears</p>
     </div>
@@ -228,13 +250,13 @@
 
     if (current === 1) {
       resetMagicText(page2Text);
-      showMagicText(page2Text, 30);
+      showMagicText(page2Text, 50);
     }
   }
 
   // Show magic text on initial load if page 2 is active
   if (pages[1].classList.contains('active')) {
-    showMagicText(page2Text, 30);
+    showMagicText(page2Text, 50);
   }
 </script>
 
