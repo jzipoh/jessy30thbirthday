@@ -68,7 +68,7 @@
       white-space: nowrap;
       border-right: 3px solid rgba(214,51,132,0.75);
       overflow: hidden;
-      min-height: 2.6rem; /* to keep consistent height during fade */
+      min-height: 2.6rem; /* keep consistent height during fade */
     }
 
     .page img {
@@ -83,12 +83,13 @@
       width: 100%;
       margin-bottom: 10px;
       color: #333;
-      min-height: 260px; /* fixed height so text doesn't push photo */
+      min-height: 200px; /* reduce height to push content up */
       position: relative;
       font-size: 1rem;
       line-height: 1.4;
       overflow-wrap: break-word;
       white-space: pre-wrap;
+      margin-top: 0; /* removed any top margin */
     }
 
     .text-block h2 {
@@ -136,7 +137,7 @@
     .fade-letter {
       opacity: 0;
       display: inline-block;
-      animation: fadeInLetter 0.5s forwards;
+      animation: fadeInLetter 0.3s forwards;
     }
 
     @keyframes fadeInLetter {
@@ -229,11 +230,11 @@
 
     if (current === 0) {
       // Magical fade-in for page 1 title
-      magicalFadeIn(document.getElementById('titleText'), titleFullText, 100);
+      magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
     }
     else if (current === 1) {
       // Magical fade-in for page 2 message
-      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 40);
+      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 20);
     }
     else if (current === 2 && video) {
       setTimeout(() => {
@@ -246,7 +247,7 @@
 
   // Start with magical fade-in on page 1 initially
   window.onload = () => {
-    magicalFadeIn(document.getElementById('titleText'), titleFullText, 100);
+    magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
   };
 </script>
 
