@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -90,6 +90,9 @@
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       max-height: 220px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     .polaroid img {
@@ -97,6 +100,14 @@
       height: auto;
       border-radius: 4px;
       display: block;
+    }
+
+    .caption {
+      font-style: italic;
+      margin-top: 8px;
+      text-align: center;
+      color: #555;
+      font-size: 0.9rem;
     }
 
     .page video {
@@ -119,29 +130,28 @@
   </div>
 
   <!-- Page 2: Message + Polaroid -->
-<div class="page" id="page2">
-  <div class="text-block">
-    <h2>Dear Je Ssy,</h2>
-    <p>
-      Happy 30th birthday!<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br>
-      (I will input some text later on)<br><br>
-      From,<br>
-    </p>
-  </div>
-  <div class="polaroid">
-    <img src="JZ.png" alt="Second Photo">
-    <p style="font-style: italic; text-align: center; margin-top: 8px;">JZ and his bear bears</p>
-  </div>
-
+  <div class="page" id="page2">
+    <div class="text-block">
+      <h2>Dear Je Ssy,</h2>
+      <p>
+        Happy 30th birthday!<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br><br>
+        From,<br>
+      </p>
+    </div>
+    <div class="polaroid">
+      <img src="JZ.png" alt="Second Photo">
+      <p class="caption">JZ and his bear bears</p>
+    </div>
   </div>
 
   <!-- Page 3: Looping Autoplay Video -->
