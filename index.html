@@ -20,6 +20,8 @@
       position: relative;
       perspective: 1200px;
       cursor: pointer;
+      display: flex;
+      flex-direction: column;
     }
 
     .page {
@@ -39,7 +41,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: start;
-      overflow-wrap: break-word;
+      overflow: hidden;
     }
 
     .page.active {
@@ -66,6 +68,7 @@
       white-space: nowrap;
       border-right: 3px solid rgba(214,51,132,0.75);
       overflow: hidden;
+      min-height: 2.6rem; /* to keep consistent height during fade */
     }
 
     .page img {
@@ -78,11 +81,14 @@
     .text-block {
       text-align: left;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #333;
+      min-height: 260px; /* fixed height so text doesn't push photo */
+      position: relative;
+      font-size: 1rem;
+      line-height: 1.4;
+      overflow-wrap: break-word;
       white-space: pre-wrap;
-      border-right: 2px solid rgba(0,0,0,0.7);
-      overflow: hidden;
     }
 
     .text-block h2 {
@@ -100,6 +106,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      margin-top: auto; /* push polaroid to bottom */
     }
 
     .polaroid img {
@@ -124,6 +131,19 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    /* Magical letter fade-in effect */
+    .fade-letter {
+      opacity: 0;
+      display: inline-block;
+      animation: fadeInLetter 0.5s forwards;
+    }
+
+    @keyframes fadeInLetter {
+      to {
+        opacity: 1;
+      }
+    }
   </style>
 </head>
 <body>
@@ -140,7 +160,7 @@
   <div class="page" id="page2">
     <div class="text-block" id="messageText">
       <h2>Dear Je Ssy,</h2>
-      <p></p>
+      <p id="messageParagraph"></p>
     </div>
     <div class="polaroid">
       <img src="JZ.png" alt="Second Photo">
@@ -175,19 +195,31 @@
 (I will input some text later on)
 (I will input some text later on)`;
 
-  function typeWriter(element, text, speed, callback) {
+  // Magical fade-in effect for letters (both pages)
+  function magicalFadeIn(element, text, speed, callback) {
+    element.innerHTML = "";
     let i = 0;
-    element.textContent = "";
-    function typing() {
+
+    function fadeNext() {
       if (i < text.length) {
-        element.textContent += text.charAt(i);
+        if(text[i] === "\n") {
+          element.appendChild(document.createElement("br"));
+          i++;
+          fadeNext();
+          return;
+        }
+        const span = document.createElement("span");
+        span.className = "fade-letter";
+        span.style.animationDelay = (i * speed) + "ms";
+        span.textContent = text[i];
+        element.appendChild(span);
         i++;
-        setTimeout(typing, speed);
+        setTimeout(fadeNext, speed);
       } else if (callback) {
         callback();
       }
     }
-    typing();
+    fadeNext();
   }
 
   function flipPage() {
@@ -196,13 +228,12 @@
     pages[current].classList.add('active');
 
     if (current === 0) {
-      // Type title on page 1
-      typeWriter(document.getElementById('titleText'), titleFullText, 100);
+      // Magical fade-in for page 1 title
+      magicalFadeIn(document.getElementById('titleText'), titleFullText, 100);
     }
     else if (current === 1) {
-      // Type message on page 2, excluding the <h2> which stays static
-      const msgEl = document.querySelector('#messageText p');
-      typeWriter(msgEl, messageFullText, 30);
+      // Magical fade-in for page 2 message
+      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 40);
     }
     else if (current === 2 && video) {
       setTimeout(() => {
@@ -213,9 +244,9 @@
     }
   }
 
-  // Start with typing on page 1 initially
+  // Start with magical fade-in on page 1 initially
   window.onload = () => {
-    typeWriter(document.getElementById('titleText'), titleFullText, 100);
+    magicalFadeIn(document.getElementById('titleText'), titleFullText, 100);
   };
 </script>
 
