@@ -39,6 +39,10 @@
       flex-direction: column;
       align-items: center;
       justify-content: start;
+      color: black;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      line-height: 1.4;
     }
 
     .page.active {
@@ -59,7 +63,7 @@
 
     .title {
       font-size: 2rem;
-      color: #d63384;
+      color: black;
       margin-bottom: 15px;
       align-self: flex-start;
     }
@@ -75,12 +79,24 @@
       text-align: left;
       width: 100%;
       margin-bottom: 20px;
-      color: #333;
+      color: black;
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.1rem;
+      line-height: 1.4;
     }
 
-    .text-block h2 {
-      color: #d63384;
-      margin-bottom: 10px;
+    .magic-letter {
+      opacity: 0;
+      text-shadow: 0 0 5px #d63384, 0 0 10px #d63384;
+      transition: opacity 0.4s ease, text-shadow 0.6s ease;
+      display: inline-block;
+      margin-right: 0.05em;
+      white-space: pre; /* Keep spaces */
+    }
+
+    .magic-letter.visible {
+      opacity: 1;
+      text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
     }
 
     .polaroid {
@@ -108,6 +124,7 @@
       text-align: center;
       color: #555;
       font-size: 0.9rem;
+      font-family: 'Dancing Script', cursive;
     }
 
     .page video {
@@ -118,6 +135,7 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
   </style>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -126,30 +144,29 @@
   <!-- Page 1: Title + Image -->
   <div class="page active" id="page1">
     <div class="title">Happy 30th Birthday!</div>
-    <img src="jessyflower.png" alt="Birthday Image">
+    <img src="jessyflower.png" alt="Birthday Image" />
   </div>
 
   <!-- Page 2: Message + Polaroid -->
   <div class="page" id="page2">
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
-      <p>
-        Happy 30th birthday!<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br><br>
-        From,<br>
+      <p id="page2-text">
+Happy 30th Birthday!<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)
       </p>
     </div>
     <div class="polaroid">
-      <img src="JZ.png" alt="Second Photo">
+      <img src="JZ.png" alt="Second Photo" />
       <p class="caption">JZ and his bear bears</p>
     </div>
   </div>
@@ -182,7 +199,52 @@
         });
       }, 200);
     }
+
+    // If flipping to page 2, restart magic text animation
+    if (current === 1) {
+      resetMagicText(page2Text);
+      showMagicText(page2Text, 50);
+    }
   }
+
+  const page2Text = document.getElementById('page2-text');
+
+  function wrapLettersWithBreaks(element) {
+    const lines = element.innerHTML.split('<br>');
+    element.innerHTML = '';
+    lines.forEach((line, idx) => {
+      for (let char of line) {
+        const span = document.createElement('span');
+        if(char === ' ') {
+          span.innerHTML = '&nbsp;'; // keep spaces
+        } else {
+          span.textContent = char;
+        }
+        span.classList.add('magic-letter');
+        element.appendChild(span);
+      }
+      if (idx < lines.length - 1) {
+        element.appendChild(document.createElement('br'));
+      }
+    });
+  }
+
+  async function showMagicText(element, speed = 50) {
+    const letters = element.querySelectorAll('.magic-letter');
+    for (let i = 0; i < letters.length; i++) {
+      letters[i].classList.add('visible');
+      await new Promise(r => setTimeout(r, speed));
+    }
+  }
+
+  function resetMagicText(element) {
+    const letters = element.querySelectorAll('.magic-letter');
+    letters.forEach(letter => letter.classList.remove('visible'));
+  }
+
+  window.onload = () => {
+    wrapLettersWithBreaks(page2Text);
+  };
 </script>
 
 </body>
