@@ -1,4 +1,4 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -39,6 +39,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: start;
+      overflow-wrap: break-word;
     }
 
     .page.active {
@@ -62,6 +63,9 @@
       color: #d63384;
       margin-bottom: 15px;
       align-self: flex-start;
+      white-space: nowrap;
+      border-right: 3px solid rgba(214,51,132,0.75);
+      overflow: hidden;
     }
 
     .page img {
@@ -76,6 +80,9 @@
       width: 100%;
       margin-bottom: 20px;
       color: #333;
+      white-space: pre-wrap;
+      border-right: 2px solid rgba(0,0,0,0.7);
+      overflow: hidden;
     }
 
     .text-block h2 {
@@ -125,28 +132,15 @@
 
   <!-- Page 1: Title + Image -->
   <div class="page active" id="page1">
-    <div class="title">Happy 30th Birthday!</div>
+    <div class="title" id="titleText"></div>
     <img src="jessyflower.png" alt="Birthday Image">
   </div>
 
   <!-- Page 2: Message + Polaroid -->
   <div class="page" id="page2">
-    <div class="text-block">
+    <div class="text-block" id="messageText">
       <h2>Dear Je Ssy,</h2>
-      <p>
-        Happy 30th birthday!<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br>
-        (I will input some text later on)<br><br>
-        From,<br>
-      </p>
+      <p></p>
     </div>
     <div class="polaroid">
       <img src="JZ.png" alt="Second Photo">
@@ -169,13 +163,48 @@
   const video = document.getElementById('birthdayVideo');
   let current = 0;
 
+  const titleFullText = "Happy 30th Birthday!";
+  const messageFullText = `(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)
+(I will input some text later on)`;
+
+  function typeWriter(element, text, speed, callback) {
+    let i = 0;
+    element.textContent = "";
+    function typing() {
+      if (i < text.length) {
+        element.textContent += text.charAt(i);
+        i++;
+        setTimeout(typing, speed);
+      } else if (callback) {
+        callback();
+      }
+    }
+    typing();
+  }
+
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
 
-    // Restart video if it's on page 3
-    if (current === 2 && video) {
+    if (current === 0) {
+      // Type title on page 1
+      typeWriter(document.getElementById('titleText'), titleFullText, 100);
+    }
+    else if (current === 1) {
+      // Type message on page 2, excluding the <h2> which stays static
+      const msgEl = document.querySelector('#messageText p');
+      typeWriter(msgEl, messageFullText, 30);
+    }
+    else if (current === 2 && video) {
       setTimeout(() => {
         video.play().catch((e) => {
           console.log('Autoplay failed:', e);
@@ -183,6 +212,11 @@
       }, 200);
     }
   }
+
+  // Start with typing on page 1 initially
+  window.onload = () => {
+    typeWriter(document.getElementById('titleText'), titleFullText, 100);
+  };
 </script>
 
 </body>
