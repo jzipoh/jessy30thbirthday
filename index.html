@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <title>Birthday Card Flip</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-
     body {
       margin: 0;
       background: lavender;
@@ -13,8 +11,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-family: 'Dancing Script', cursive;
-      color: black;
+      font-family: 'Segoe UI', sans-serif;
     }
 
     .book {
@@ -62,7 +59,7 @@
 
     .title {
       font-size: 2rem;
-      color: black;
+      color: #d63384;
       margin-bottom: 15px;
       align-self: flex-start;
     }
@@ -77,15 +74,12 @@
     .text-block {
       text-align: left;
       width: 100%;
-      margin-bottom: 10px;
-      color: black;
-      font-size: 1.1rem;
-      min-height: 220px;
-      position: relative;
+      margin-bottom: 20px;
+      color: #333;
     }
 
     .text-block h2 {
-      color: black;
+      color: #d63384;
       margin-bottom: 10px;
     }
 
@@ -99,9 +93,6 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      position: relative;
-      margin-top: 40px; /* to leave space for "From," above */
-      width: 100%;
     }
 
     .polaroid img {
@@ -117,23 +108,6 @@
       text-align: center;
       color: #555;
       font-size: 0.9rem;
-    }
-
-    /* "From," text styling */
-    .from-text {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.2rem;
-      color: black;
-      position: absolute;
-      top: 0;
-      left: 0;
-      animation: floatMove 3s ease-in-out infinite;
-      user-select: none;
-    }
-
-    @keyframes floatMove {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
     }
 
     .page video {
@@ -159,7 +133,8 @@
   <div class="page" id="page2">
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
-      <p id="page2Text">
+      <p>
+        Happy 30th birthday!<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
@@ -169,12 +144,11 @@
         (I will input some text later on)<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
-        (I will input some text later on)<br>
+        (I will input some text later on)<br><br>
+        From,<br>
       </p>
     </div>
-
     <div class="polaroid">
-      <div class="from-text">From,</div>
       <img src="JZ.png" alt="Second Photo">
       <p class="caption">JZ and his bear bears</p>
     </div>
@@ -195,51 +169,12 @@
   const video = document.getElementById('birthdayVideo');
   let current = 0;
 
-  const page2Text = document.getElementById('page2Text');
-  const fullText = page2Text.innerHTML;
-  page2Text.innerHTML = '';
-
-  function showMagicText(element, speed) {
-    const textLines = fullText.split('<br>');
-    let lineIndex = 0;
-    let charIndex = 0;
-    element.innerHTML = '';
-
-    function typeNextChar() {
-      if (lineIndex >= textLines.length) return;
-      if (!element.children[lineIndex]) {
-        const lineSpan = document.createElement('span');
-        element.appendChild(lineSpan);
-      }
-
-      const currentLine = textLines[lineIndex];
-      const lineSpan = element.children[lineIndex];
-
-      if (charIndex < currentLine.length) {
-        lineSpan.textContent += currentLine.charAt(charIndex);
-        charIndex++;
-        setTimeout(typeNextChar, speed);
-      } else {
-        charIndex = 0;
-        lineIndex++;
-        if (lineIndex < textLines.length) {
-          element.appendChild(document.createElement('br'));
-          setTimeout(typeNextChar, speed);
-        }
-      }
-    }
-    typeNextChar();
-  }
-
-  function resetMagicText(element) {
-    element.innerHTML = '';
-  }
-
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
 
+    // Restart video if it's on page 3
     if (current === 2 && video) {
       setTimeout(() => {
         video.play().catch((e) => {
@@ -247,16 +182,6 @@
         });
       }, 200);
     }
-
-    if (current === 1) {
-      resetMagicText(page2Text);
-      showMagicText(page2Text, 50);
-    }
-  }
-
-  // Show magic text on initial load if page 2 is active
-  if (pages[1].classList.contains('active')) {
-    showMagicText(page2Text, 50);
   }
 </script>
 
