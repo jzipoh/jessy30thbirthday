@@ -20,8 +20,6 @@
       position: relative;
       perspective: 1200px;
       cursor: pointer;
-      display: flex;
-      flex-direction: column;
     }
 
     .page {
@@ -47,6 +45,7 @@
     .page.active {
       display: flex;
       animation: flipIn 0.8s ease;
+      position: relative;
     }
 
     @keyframes flipIn {
@@ -60,6 +59,7 @@
       }
     }
 
+    /* Page 1 Title */
     .title {
       font-size: 2rem;
       color: #d63384;
@@ -68,7 +68,7 @@
       white-space: nowrap;
       border-right: 3px solid rgba(214,51,132,0.75);
       overflow: hidden;
-      min-height: 2.6rem; /* keep consistent height during fade */
+      min-height: 2.6rem;
     }
 
     .page img {
@@ -78,28 +78,31 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    .text-block {
-      text-align: left;
-      width: 100%;
-      margin-bottom: 10px;
+    /* Page 2 Text block absolutely positioned */
+    #page2 .text-block {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      max-height: 240px;
+      overflow-y: auto;
       color: #333;
-      position: relative;
       font-size: 1rem;
       line-height: 1.4;
-      overflow-wrap: break-word;
-      white-space: pre-wrap;
-      margin-top: 0;
-      /* new styles to position higher and avoid overlap */
-      flex-shrink: 0;
-      max-height: 250px;
+      padding-right: 10px; /* for scrollbar space */
     }
 
-    .text-block h2 {
+    #page2 .text-block h2 {
       color: #d63384;
       margin-bottom: 10px;
     }
 
-    .polaroid {
+    /* Polaroid stays at bottom */
+    #page2 .polaroid {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
       background: white;
       padding: 10px 10px 20px 10px;
       border-radius: 8px;
@@ -109,11 +112,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: auto; /* push polaroid to bottom */
-      flex-shrink: 0;
     }
 
-    .polaroid img {
+    #page2 .polaroid img {
       width: 100%;
       height: auto;
       border-radius: 4px;
@@ -136,11 +137,12 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Magical letter fade-in effect */
     .fade-letter {
       opacity: 0;
       display: inline-block;
-      animation: fadeInLetter 0.2s forwards;
+      animation-fill-mode: forwards;
+      animation-name: fadeInLetter;
+      animation-timing-function: ease-in;
     }
 
     @keyframes fadeInLetter {
@@ -167,7 +169,7 @@
       <p id="messageParagraph"></p>
     </div>
     <div class="polaroid">
-      <img src="JZ.png" alt="Second Photo">
+      <img src="JZ.png" alt="Second Photo" />
       <p class="caption">JZ and his bear bears</p>
     </div>
   </div>
@@ -199,7 +201,6 @@
 (I will input some text later on)
 (I will input some text later on)`;
 
-  // Magical fade-in effect for letters (both pages)
   function magicalFadeIn(element, text, speed, callback) {
     element.innerHTML = "";
     let i = 0;
@@ -214,6 +215,7 @@
         }
         const span = document.createElement("span");
         span.className = "fade-letter";
+        span.style.animationDuration = "0.3s";
         span.style.animationDelay = (i * speed) + "ms";
         span.textContent = text[i];
         element.appendChild(span);
@@ -232,11 +234,11 @@
     pages[current].classList.add('active');
 
     if (current === 0) {
-      // Magical fade-in for page 1 title
-      magicalFadeIn(document.getElementById('titleText'), titleFullText, 20);
+      // Slower fade-in on page 1 (80ms)
+      magicalFadeIn(document.getElementById('titleText'), titleFullText, 80);
     }
     else if (current === 1) {
-      // Magical fade-in for page 2 message
+      // Faster fade-in on page 2 (20ms)
       magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 20);
     }
     else if (current === 2 && video) {
@@ -248,9 +250,9 @@
     }
   }
 
-  // Start with magical fade-in on page 1 initially
+  // Start with page 1 text on load with slower speed
   window.onload = () => {
-    magicalFadeIn(document.getElementById('titleText'), titleFullText, 20);
+    magicalFadeIn(document.getElementById('titleText'), titleFullText, 80);
   };
 </script>
 
