@@ -68,6 +68,13 @@
       align-self: flex-start;
     }
 
+    .page img {
+      max-width: 100%;
+      max-height: 80%;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
     .text-block {
       text-align: left;
       width: 100%;
@@ -78,48 +85,62 @@
       line-height: 1.4;
     }
 
-    .polaroid-container {
-      width: 100%;
-      margin-top: 10px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+    .magic-letter {
+      opacity: 0;
+      text-shadow: 0 0 5px #d63384, 0 0 10px #d63384;
+      transition: opacity 0.4s ease, text-shadow 0.6s ease;
+      display: inline-block;
+      margin-right: 0.05em;
+      white-space: pre; /* Keep spaces */
     }
 
-    .from-label {
-      font-family: 'Dancing Script', cursive;
-      font-size: 1.1rem;
-      color: black;
-      margin-bottom: 6px;
-      padding-left: 2px;
+    .magic-letter.visible {
+      opacity: 1;
+      text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
     }
 
-    .polaroid {
-      background: white;
-      padding: 6px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-      max-height: 100px; /* Significantly reduced height */
-      width: 60%; /* Smaller width */
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  .polaroid-container {
+    width: 100%;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* left align "From," */
+  }
 
-    .polaroid img {
-      width: 100%;
-      height: auto;
-      border-radius: 4px;
-      display: block;
-    }
+  .from-label {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.1rem;
+    color: black;
+    margin-bottom: 6px;
+    padding-left: 2px;
+  }
+
+  .polaroid {
+    background: white;
+    padding: 10px 10px 20px 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    max-height: 220px;  /* keep previous size */
+    width: 100%;       /* fill container width */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .polaroid img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    display: block;
+  }
 
     .caption {
       font-style: italic;
-      margin-top: 4px;
+      margin-top: 8px;
       text-align: center;
       color: #555;
-      font-size: 0.7rem;
+      font-size: 0.9rem;
       font-family: 'Dancing Script', cursive;
     }
 
@@ -149,6 +170,15 @@
       <h2>Dear Je Ssy,</h2>
       <p id="page2-text">
 Happy 30th Birthday!<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
+(I will input some text later on)<br>
 (I will input some text later on)
       </p>
     </div>
@@ -189,7 +219,52 @@ Happy 30th Birthday!<br>
         });
       }, 200);
     }
+
+    // If flipping to page 2, restart magic text animation
+    if (current === 1) {
+      resetMagicText(page2Text);
+      showMagicText(page2Text, 50);
+    }
   }
+
+  const page2Text = document.getElementById('page2-text');
+
+  function wrapLettersWithBreaks(element) {
+    const lines = element.innerHTML.split('<br>');
+    element.innerHTML = '';
+    lines.forEach((line, idx) => {
+      for (let char of line) {
+        const span = document.createElement('span');
+        if(char === ' ') {
+          span.innerHTML = '&nbsp;'; // keep spaces
+        } else {
+          span.textContent = char;
+        }
+        span.classList.add('magic-letter');
+        element.appendChild(span);
+      }
+      if (idx < lines.length - 1) {
+        element.appendChild(document.createElement('br'));
+      }
+    });
+  }
+
+  async function showMagicText(element, speed = 50) {
+    const letters = element.querySelectorAll('.magic-letter');
+    for (let i = 0; i < letters.length; i++) {
+      letters[i].classList.add('visible');
+      await new Promise(r => setTimeout(r, speed));
+    }
+  }
+
+  function resetMagicText(element) {
+    const letters = element.querySelectorAll('.magic-letter');
+    letters.forEach(letter => letter.classList.remove('visible'));
+  }
+
+  window.onload = () => {
+    wrapLettersWithBreaks(page2Text);
+  };
 </script>
 
 </body>
