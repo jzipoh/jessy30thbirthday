@@ -186,12 +186,22 @@ From
 <script>
   const pages = document.querySelectorAll('.page');
   const video = document.getElementById('birthdayVideo');
+  const audio = document.querySelector('audio');
   let current = 0;
+
+  // Start audio muted to allow autoplay
+  audio.volume = 0;
+  audio.play().catch(() => {});
 
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
+
+    // Unmute audio a bit on first click
+    if (audio.volume === 0) {
+      audio.volume = 0.3;
+    }
 
     // Restart video if it's on page 3
     if (current === 2 && video) {
