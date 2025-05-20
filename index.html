@@ -39,13 +39,11 @@
       flex-direction: column;
       align-items: center;
       justify-content: start;
-      overflow: hidden;
     }
 
     .page.active {
       display: flex;
       animation: flipIn 0.8s ease;
-      position: relative;
     }
 
     @keyframes flipIn {
@@ -64,7 +62,6 @@
       color: #d63384;
       margin-bottom: 15px;
       align-self: flex-start;
-      white-space: pre-wrap;
     }
 
     .page img {
@@ -74,33 +71,31 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    #page2 .text-block {
+    .text-block {
       text-align: left;
       width: 100%;
       margin-bottom: 20px;
       color: #333;
-      font-size: 1rem;
-      line-height: 1.4;
-      white-space: pre-wrap;
-      min-height: 200px; /* keeps polaroid from moving */
     }
 
-    #page2 .text-block h2 {
+    .text-block h2 {
       color: #d63384;
       margin-bottom: 10px;
     }
 
-    #page2 .polaroid {
+    .polaroid {
       background: white;
       padding: 10px 10px 20px 10px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       max-height: 220px;
       overflow: hidden;
-      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    #page2 .polaroid img {
+    .polaroid img {
       width: 100%;
       height: auto;
       border-radius: 4px;
@@ -139,6 +134,7 @@
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
       <p>
+        Happy 30th birthday!<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
@@ -148,11 +144,12 @@
         (I will input some text later on)<br>
         (I will input some text later on)<br>
         (I will input some text later on)<br>
-        (I will input some text later on)
+        (I will input some text later on)<br><br>
+        From,<br>
       </p>
     </div>
     <div class="polaroid">
-      <img src="JZ.png" alt="Second Photo" />
+      <img src="JZ.png" alt="Second Photo">
       <p class="caption">JZ and his bear bears</p>
     </div>
   </div>
@@ -177,9 +174,12 @@
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
 
+    // Restart video if it's on page 3
     if (current === 2 && video) {
       setTimeout(() => {
-        video.play().catch(e => console.log('Autoplay failed:', e));
+        video.play().catch((e) => {
+          console.log('Autoplay failed:', e);
+        });
       }, 200);
     }
   }
