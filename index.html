@@ -59,16 +59,12 @@
       }
     }
 
-    /* Page 1 Title */
     .title {
       font-size: 2rem;
       color: #d63384;
       margin-bottom: 15px;
       align-self: flex-start;
-      white-space: nowrap;
-      border-right: 3px solid rgba(214,51,132,0.75);
-      overflow: hidden;
-      min-height: 2.6rem;
+      white-space: pre-wrap;
     }
 
     .page img {
@@ -78,43 +74,30 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Page 2 Text block absolutely positioned at top */
     #page2 .text-block {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      right: 20px;
-      max-height: 200px;
-      overflow-y: auto;
+      text-align: left;
+      width: 100%;
+      margin-bottom: 20px;
       color: #333;
       font-size: 1rem;
       line-height: 1.4;
-      padding-right: 10px; /* scrollbar space */
-      background: transparent;
+      white-space: pre-wrap;
+      min-height: 200px; /* keeps polaroid from moving */
     }
 
     #page2 .text-block h2 {
       color: #d63384;
       margin-bottom: 10px;
-      padding: 0;
-      margin-top: 0;
     }
 
-    /* Polaroid fixed at bottom */
     #page2 .polaroid {
-      position: absolute;
-      bottom: 20px;
-      left: 20px;
-      right: 20px;
       background: white;
       padding: 10px 10px 20px 10px;
       border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       max-height: 220px;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      width: 100%;
     }
 
     #page2 .polaroid img {
@@ -139,20 +122,6 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-
-    .fade-letter {
-      opacity: 0;
-      display: inline-block;
-      animation-fill-mode: forwards;
-      animation-name: fadeInLetter;
-      animation-timing-function: ease-in;
-    }
-
-    @keyframes fadeInLetter {
-      to {
-        opacity: 1;
-      }
-    }
   </style>
 </head>
 <body>
@@ -161,15 +130,26 @@
 
   <!-- Page 1: Title + Image -->
   <div class="page active" id="page1">
-    <div class="title" id="titleText"></div>
+    <div class="title">Happy 30th Birthday!</div>
     <img src="jessyflower.png" alt="Birthday Image">
   </div>
 
   <!-- Page 2: Message + Polaroid -->
   <div class="page" id="page2">
-    <div class="text-block" id="messageText">
+    <div class="text-block">
       <h2>Dear Je Ssy,</h2>
-      <p id="messageParagraph"></p>
+      <p>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)
+      </p>
     </div>
     <div class="polaroid">
       <img src="JZ.png" alt="Second Photo" />
@@ -192,68 +172,17 @@
   const video = document.getElementById('birthdayVideo');
   let current = 0;
 
-  const titleFullText = "Happy 30th Birthday!";
-  const messageFullText = `(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)
-(I will input some text later on)`;
-
-  function magicalFadeIn(element, text, speed, callback) {
-    element.innerHTML = "";
-    let i = 0;
-
-    function fadeNext() {
-      if (i < text.length) {
-        if(text[i] === "\n") {
-          element.appendChild(document.createElement("br"));
-          i++;
-          fadeNext();
-          return;
-        }
-        const span = document.createElement("span");
-        span.className = "fade-letter";
-        span.style.animationDuration = "0.3s";
-        span.style.animationDelay = (i * speed) + "ms";
-        span.textContent = text[i];
-        element.appendChild(span);
-        i++;
-        setTimeout(fadeNext, speed);
-      } else if (callback) {
-        callback();
-      }
-    }
-    fadeNext();
-  }
-
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
 
-    if (current === 0) {
-      magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
-    }
-    else if (current === 1) {
-      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 50);
-    }
-    else if (current === 2 && video) {
+    if (current === 2 && video) {
       setTimeout(() => {
-        video.play().catch((e) => {
-          console.log('Autoplay failed:', e);
-        });
+        video.play().catch(e => console.log('Autoplay failed:', e));
       }, 200);
     }
   }
-
-  window.onload = () => {
-    magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
-  };
 </script>
 
 </body>
