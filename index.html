@@ -42,6 +42,7 @@
       color: black;
       font-family: 'Dancing Script', cursive;
       font-size: 1.1rem;
+      line-height: 1.4;
     }
 
     .page.active {
@@ -84,6 +85,20 @@
       line-height: 1.4;
     }
 
+    .magic-letter {
+      opacity: 0;
+      text-shadow: 0 0 5px #d63384, 0 0 10px #d63384;
+      transition: opacity 0.4s ease, text-shadow 0.6s ease;
+      display: inline-block;
+      margin-right: 0.05em;
+      white-space: pre; /* Keep spaces */
+    }
+
+    .magic-letter.visible {
+      opacity: 1;
+      text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
+    }
+
     .polaroid {
       background: white;
       padding: 10px 10px 20px 10px;
@@ -119,21 +134,8 @@
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-
-    /* Magic letter fade in */
-    .magic-letter {
-      opacity: 0;
-      text-shadow: 0 0 5px #d63384, 0 0 10px #d63384;
-      transition: opacity 0.4s ease, text-shadow 0.6s ease;
-      display: inline-block;
-    }
-
-    .magic-letter.visible {
-      opacity: 1;
-      text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
-    }
   </style>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet" />
 </head>
 <body>
 
@@ -147,7 +149,9 @@
 
   <!-- Page 2: Message + Polaroid -->
   <div class="page" id="page2">
-    <div class="text-block" id="page2-text">
+    <div class="text-block">
+      <h2>Dear Je Ssy,</h2>
+      <p id="page2-text">
 Happy 30th Birthday!<br>
 (I will input some text later on)<br>
 (I will input some text later on)<br>
@@ -159,6 +163,7 @@ Happy 30th Birthday!<br>
 (I will input some text later on)<br>
 (I will input some text later on)<br>
 (I will input some text later on)
+      </p>
     </div>
     <div class="polaroid">
       <img src="JZ.png" alt="Second Photo" />
@@ -194,7 +199,7 @@ Happy 30th Birthday!<br>
         });
       }, 200);
     }
-    
+
     // If flipping to page 2, restart magic text animation
     if (current === 1) {
       resetMagicText(page2Text);
@@ -210,7 +215,11 @@ Happy 30th Birthday!<br>
     lines.forEach((line, idx) => {
       for (let char of line) {
         const span = document.createElement('span');
-        span.textContent = char;
+        if(char === ' ') {
+          span.innerHTML = '&nbsp;'; // keep spaces
+        } else {
+          span.textContent = char;
+        }
         span.classList.add('magic-letter');
         element.appendChild(span);
       }
@@ -233,7 +242,6 @@ Happy 30th Birthday!<br>
     letters.forEach(letter => letter.classList.remove('visible'));
   }
 
-  // On page load, prepare the magic text but do not animate
   window.onload = () => {
     wrapLettersWithBreaks(page2Text);
   };
