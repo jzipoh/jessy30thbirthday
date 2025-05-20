@@ -83,13 +83,15 @@
       width: 100%;
       margin-bottom: 10px;
       color: #333;
-      min-height: 200px; /* reduce height to push content up */
       position: relative;
       font-size: 1rem;
       line-height: 1.4;
       overflow-wrap: break-word;
       white-space: pre-wrap;
-      margin-top: 0; /* removed any top margin */
+      margin-top: 0;
+      /* new styles to position higher and avoid overlap */
+      flex-shrink: 0;
+      max-height: 250px;
     }
 
     .text-block h2 {
@@ -108,6 +110,7 @@
       flex-direction: column;
       align-items: center;
       margin-top: auto; /* push polaroid to bottom */
+      flex-shrink: 0;
     }
 
     .polaroid img {
@@ -137,7 +140,7 @@
     .fade-letter {
       opacity: 0;
       display: inline-block;
-      animation: fadeInLetter 0.3s forwards;
+      animation: fadeInLetter 0.2s forwards;
     }
 
     @keyframes fadeInLetter {
@@ -230,7 +233,7 @@
 
     if (current === 0) {
       // Magical fade-in for page 1 title
-      magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
+      magicalFadeIn(document.getElementById('titleText'), titleFullText, 20);
     }
     else if (current === 1) {
       // Magical fade-in for page 2 message
@@ -247,7 +250,7 @@
 
   // Start with magical fade-in on page 1 initially
   window.onload = () => {
-    magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
+    magicalFadeIn(document.getElementById('titleText'), titleFullText, 20);
   };
 </script>
 
