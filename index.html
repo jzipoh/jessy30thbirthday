@@ -78,26 +78,29 @@
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
-    /* Page 2 Text block absolutely positioned */
+    /* Page 2 Text block absolutely positioned at top */
     #page2 .text-block {
       position: absolute;
       top: 20px;
       left: 20px;
       right: 20px;
-      max-height: 240px;
+      max-height: 200px;
       overflow-y: auto;
       color: #333;
       font-size: 1rem;
       line-height: 1.4;
-      padding-right: 10px; /* for scrollbar space */
+      padding-right: 10px; /* scrollbar space */
+      background: transparent;
     }
 
     #page2 .text-block h2 {
       color: #d63384;
       margin-bottom: 10px;
+      padding: 0;
+      margin-top: 0;
     }
 
-    /* Polaroid stays at bottom */
+    /* Polaroid fixed at bottom */
     #page2 .polaroid {
       position: absolute;
       bottom: 20px;
@@ -234,12 +237,10 @@
     pages[current].classList.add('active');
 
     if (current === 0) {
-      // Slower fade-in on page 1 (80ms)
-      magicalFadeIn(document.getElementById('titleText'), titleFullText, 80);
+      magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
     }
     else if (current === 1) {
-      // Faster fade-in on page 2 (20ms)
-      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 20);
+      magicalFadeIn(document.getElementById('messageParagraph'), messageFullText, 50);
     }
     else if (current === 2 && video) {
       setTimeout(() => {
@@ -250,9 +251,8 @@
     }
   }
 
-  // Start with page 1 text on load with slower speed
   window.onload = () => {
-    magicalFadeIn(document.getElementById('titleText'), titleFullText, 80);
+    magicalFadeIn(document.getElementById('titleText'), titleFullText, 50);
   };
 </script>
 
