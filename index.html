@@ -28,6 +28,7 @@
       background: #C8A2C8;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+      padding: 20px;
       box-sizing: border-box;
       position: absolute;
       top: 0;
@@ -59,7 +60,7 @@
     .title {
       font-size: 2rem;
       color: #d63384;
-      margin: 20px 0 15px 0;
+      margin-bottom: 15px;
       align-self: flex-start;
     }
 
@@ -68,13 +69,6 @@
       max-height: 80%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-
-    .page video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 16px;
     }
 
     .text-block {
@@ -105,10 +99,12 @@
       display: block;
     }
 
-    #page3 {
-      padding: 0;
-      justify-content: center;
-      align-items: center;
+    .page video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
   </style>
 </head>
@@ -122,7 +118,7 @@
     <img src="jessyflower.png" alt="Birthday Image">
   </div>
 
-  <!-- Page 2: Message + Polaroid Image -->
+  <!-- Page 2: Message + Polaroid -->
   <div class="page" id="page2">
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
@@ -130,7 +126,6 @@
         Happy 30th birthday!<br>
         (I will input some text here later on)<br><br>
         From,<br>
-        JZ
       </p>
     </div>
     <div class="polaroid">
@@ -138,24 +133,34 @@
     </div>
   </div>
 
-  <!-- Page 3: Video -->
-<div class="page" id="page3">
-  <video autoplay muted loop playsinline style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
-    <source src="jessybearvideo.mp4" type="video/mp4" />
-    Your browser does not support the video tag.
-  </video>
-</div>
+  <!-- Page 3: Looping Autoplay Video -->
+  <div class="page" id="page3">
+    <video id="birthdayVideo" muted autoplay loop playsinline>
+      <source src="jessybearvideo.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
 
 </div>
 
 <script>
   const pages = document.querySelectorAll('.page');
+  const video = document.getElementById('birthdayVideo');
   let current = 0;
 
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
+
+    // Restart video if it's on page 3
+    if (current === 2 && video) {
+      setTimeout(() => {
+        video.play().catch((e) => {
+          console.log('Autoplay failed:', e);
+        });
+      }, 200);
+    }
   }
 </script>
 
