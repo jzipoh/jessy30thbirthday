@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <title>Birthday Card Flip</title>
   <style>
-    /* Your existing CSS here... */
     body {
       margin: 0;
       background: lavender;
@@ -14,6 +13,7 @@
       align-items: center;
       font-family: 'Segoe UI', sans-serif;
     }
+
     .book {
       width: 400px;
       height: 600px;
@@ -21,6 +21,7 @@
       perspective: 1200px;
       cursor: pointer;
     }
+
     .page {
       width: 100%;
       height: 100%;
@@ -43,10 +44,12 @@
       font-size: 1.1rem;
       line-height: 1.4;
     }
+
     .page.active {
       display: flex;
       animation: flipIn 0.8s ease;
     }
+
     @keyframes flipIn {
       from {
         transform: rotateY(-90deg);
@@ -57,18 +60,21 @@
         opacity: 1;
       }
     }
+
     .title {
       font-size: 2rem;
       color: black;
       margin-bottom: 15px;
       align-self: flex-start;
     }
+
     .page img {
       max-width: 100%;
       max-height: 80%;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     .text-block {
       text-align: left;
       width: 100%;
@@ -78,6 +84,7 @@
       font-size: 1.1rem;
       line-height: 1.4;
     }
+
     .magic-letter {
       opacity: 0;
       text-shadow: 0 0 5px #d63384, 0 0 10px #d63384;
@@ -86,10 +93,12 @@
       margin-right: 0.05em;
       white-space: pre; /* Keep spaces */
     }
+
     .magic-letter.visible {
       opacity: 1;
       text-shadow: 0 0 15px #d63384, 0 0 25px #d63384, 0 0 30px #d63384;
     }
+
     .polaroid {
       background: white;
       padding: 10px 10px 20px 10px;
@@ -101,12 +110,14 @@
       flex-direction: column;
       align-items: center;
     }
+
     .polaroid img {
       width: 100%;
       height: auto;
       border-radius: 4px;
       display: block;
     }
+
     .caption {
       font-style: italic;
       margin-top: 8px;
@@ -115,6 +126,13 @@
       font-size: 0.9rem;
       font-family: 'Dancing Script', cursive;
     }
+
+    /* New style for the "From" line inside text block */
+    .from-text {
+      font-weight: bold;
+      margin-top: 1em;
+    }
+
     .page video {
       width: 100%;
       height: 100%;
@@ -140,18 +158,18 @@
     <div class="text-block">
       <h2>Dear Je Ssy,</h2>
       <p id="page2-text">
-Happy 30th Birthday!<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-(I will input some text later on)<br>
-From
+        Happy 30th Birthday!<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
+        (I will input some text later on)<br>
       </p>
+      <p class="from-text">From</p>
     </div>
     <div class="polaroid">
       <img src="JZ.png" alt="Second Photo" />
@@ -169,38 +187,26 @@ From
 
 </div>
 
-<audio id="backgroundMusic" src="music.mp3" loop></audio>
-
 <script>
   const pages = document.querySelectorAll('.page');
   const video = document.getElementById('birthdayVideo');
-  const audio = document.getElementById('backgroundMusic');
   let current = 0;
-  let musicStarted = false;
 
   function flipPage() {
     pages[current].classList.remove('active');
     current = (current + 1) % pages.length;
     pages[current].classList.add('active');
 
-    // Start music on first click
-    if (!musicStarted) {
-      audio.play().catch(e => {
-        console.log("Audio play prevented:", e);
-      });
-      musicStarted = true;
-    }
-
-    // Restart video if on page 3
+    // Restart video if it's on page 3
     if (current === 2 && video) {
       setTimeout(() => {
-        video.play().catch(e => {
-          console.log('Video autoplay failed:', e);
+        video.play().catch((e) => {
+          console.log('Autoplay failed:', e);
         });
       }, 200);
     }
 
-    // Restart magic text animation on page 2
+    // If flipping to page 2, restart magic text animation
     if (current === 1) {
       resetMagicText(page2Text);
       showMagicText(page2Text, 20);
